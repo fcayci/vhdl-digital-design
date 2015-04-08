@@ -8,7 +8,7 @@ entity mux4_struct is
            Z : out  STD_LOGIC);
 end mux4_struct;
 
-architecture struct of mux4_struct is
+architecture Structural of mux4_struct is
 
   -- Instantiate mux2 circuit (mux2.vhd)
   COMPONENT mux2
@@ -44,4 +44,4 @@ begin
    	 Y => Z
   );
 
-end struct;
+end Structural;
