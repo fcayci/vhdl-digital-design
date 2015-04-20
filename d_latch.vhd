@@ -14,7 +14,7 @@ end d_latch;
 
 architecture Behavioral of d_latch is
 
-    SIGNAL D_next : STD_LOGIC;
+    SIGNAL D_next : STD_LOGIC := '0';
 
 begin
 
