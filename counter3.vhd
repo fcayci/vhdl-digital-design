@@ -1,3 +1,5 @@
+-- 3-bit (MOD-8) counter using D Flip Flops
+--   connected as T Flip Flops
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -18,10 +20,12 @@ begin
 
     process(CLK, RST) is
     begin
+        -- Reset all the Flip Flop outputs to 0
         if RST = '1' then
             A <= '0';
             B <= '0';
             C <= '0';
+        -- Each rising edge, update the flip flops
         elsif CLK'event and CLK = '1' then
             if EN = '1' then
                 A <= A xor '1';
@@ -31,6 +35,7 @@ begin
         end if;
     end process;
 
+    -- Assign the outputs outside of process
     A_out <= A;
     B_out <= B;
     C_out <= C;
