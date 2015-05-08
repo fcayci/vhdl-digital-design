@@ -25,7 +25,11 @@ begin
         -- Increment the FF outputs if enabled and rising edge hits.
         elsif CLK'event and CLK = '1' then
             if EN = '1' then
-                cnt <= cnt + '1';
+                if cnt = "101" then
+                    cnt <= "000";
+                else
+                    cnt <= cnt + '1';
+                end if;
             end if;
         end if;
     end process;
