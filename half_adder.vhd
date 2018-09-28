@@ -1,19 +1,16 @@
--- Half Adder
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+-- half adder
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity half_adder is
-    Port ( x : in  STD_LOGIC;
-           y : in  STD_LOGIC;
-           s : out STD_LOGIC;
-           c : out STD_LOGIC);
+    -- x, y are inputs of the adder
+    -- s (sum), c (carry) are outputs of the adder
+    port ( x : in  std_logic; y : in  std_logic; s : out std_logic; c : out std_logic );
 end half_adder;
 
-architecture Behavioral of half_adder is
-
+architecture bhv of half_adder is
 begin
-
+    -- two concurrent assignments
     s <= x xor y;
     c <= x and y;
-
-end Behavioral;
+end bhv;
