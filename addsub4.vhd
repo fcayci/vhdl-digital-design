@@ -2,8 +2,6 @@
 -- subtractor calculates a - b
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_unsigned.all;
-use ieee.numeric_std.all;
 
 entity addsub4 is
     -- a, b are 4-bit inputs of the addsub4
@@ -30,7 +28,7 @@ architecture rtl of addsub4 is
     signal bin : std_logic_vector(3 downto 0) := (others => '0');
 begin
     -- xor each b input with the value of m to use it as is or take 1's complement
-    bin <= b xor std_logic_vector(resize(unsigned(m), bin'length));
+    bin <= b xor (m & m & m & m);
 
     f0 : full_adder port map ( x => a(0), y => bin(0), cin => m,    s => s(0), cout => c(0) );
     f1 : full_adder port map ( x => a(1), y => bin(1), cin => c(0), s => s(1), cout => c(1) );
