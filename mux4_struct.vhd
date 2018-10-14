@@ -1,47 +1,48 @@
--- 1-to-4 MUX structural circuit using 3 x 1-to-2 MUX circuits
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+-- 4-to-1 mux structural
+library ieee;
+use ieee.std_logic_1164.all;
 
-entity mux4_struct is
-    Port ( A : in  STD_LOGIC_VECTOR (3 downto 0);
-           S : in  STD_LOGIC_VECTOR (1 downto 0);
-           Z : out  STD_LOGIC);
-end mux4_struct;
+entity mux4 is
+    port ( a   : in  std_logic_vector(3 downto 0);
+           sel : in  std_logic_vector(1 downto 0);
+           y   : out std_logic
+          );
+end mux4;
 
-architecture Structural of mux4_struct is
+architecture str of mux4_struct is
 
-  -- Instantiate mux2 circuit (mux2.vhd)
-  COMPONENT mux2
-    PORT ( 
-      I : in  STD_LOGIC_VECTOR (1 downto 0);
-      S : in  STD_LOGIC;
-      Y : out STD_LOGIC
-    );
-  END COMPONENT;
+    -- instantiate mux2 circuit (mux2.vhd)
+    component mux2 is
+    port ( a   : in  std_logic_vector(1 downto 0);
+           sel : in  std_logic;
+           y   : out std_logic
+         );
+    end component;
 
-  SIGNAL MUXOUT : STD_LOGIC_VECTOR(1 downto 0) := "00";
+    -- signal to hold the first stage mux outputs
+    signal stage1 : std_logic_vector(1 downto 0) := "00";
 
 begin
 
-  -- First stage mux
-  m1: mux2 PORT MAP (
-   	 I => A(3 downto 2),
-   	 S => S(0),
-   	 Y => MUXOUT(0)
-  );
-  
-  -- First stage mux
-  m2: mux2 PORT MAP (
-   	 I => A(1 downto 0),
-   	 S => S(0),
-   	 Y => MUXOUT(1)
-  );
-  
-  -- Second stage mux
-  m3: mux2 PORT MAP (
-   	 I => MUXOUT,
-   	 S => S(1),
-   	 Y => Z
+  -- first stage mux
+  m1a: mux2 port map (
+   	 a => a(3 downto 2),
+   	 s => s(0),
+   	 y => stage1(0)
   );
 
-end Structural;
+  -- sirst stage mux
+  m1b: mux2 port map (
+   	 a => a(1 downto 0),
+   	 s => s(0),
+   	 y => stage1(1)
+  );
+
+  -- second stage mux
+  m2: mux2 port map (
+   	 a => stage1,
+   	 s => s(1),
+   	 y => y
+  );
+
+end str;

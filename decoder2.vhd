@@ -1,21 +1,18 @@
--- 2-to-4 Decoder circuit
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
+-- 2-bit line decoder (2 to 4)
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity decoder2 is
-    Port ( A : in  STD_LOGIC_VECTOR (1 downto 0);
-           B : out  STD_LOGIC_VECTOR (3 downto 0));
+    port ( a : in  std_logic_vector(1 downto 0);
+           b : out std_logic_vector(3 downto 0)
+          );
 end decoder2;
 
-architecture Behavioral of decoder2 is
-
+architecture rtl of decoder2 is
 begin
-
-  with A select 
-    B <= "0001" when "00",
-         "0010" when "01",
-         "0100" when "10",
-         "1000" when "11";
-
-end Behavioral;
+    with a select
+        b <= "0001" when "00",
+             "0010" when "01",
+             "0100" when "10",
+             "1000" when "11";
+end rtl;

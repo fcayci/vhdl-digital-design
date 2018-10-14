@@ -1,21 +1,21 @@
--- 4-to-1 MUX circuit
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+-- 4-to-1 mux
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity mux4 is
-    Port ( I : in  STD_LOGIC_VECTOR (3 downto 0);
-           S : in  STD_LOGIC_VECTOR (1 downto 0);
-           Y : out STD_LOGIC);
+    port ( a   : in  std_logic_vector(3 downto 0);
+           sel : in  std_logic_vector(1 downto 0);
+           y   : out std_logic
+          );
 end mux4;
 
-architecture Behavioral of mux4 is
-
+architecture rtl of mux4 is
 begin
 
-  with S select 
-    Y <= I(0) when "00",
-         I(1) when "01",
-         I(2) when "10",
-         I(3) when "11";
+    with sel select
+        y <= a(0) when "00",
+             a(1) when "01",
+             a(2) when "10",
+             a(3) when others;
 
-end Behavioral;
+end rtl;
