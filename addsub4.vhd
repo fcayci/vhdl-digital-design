@@ -19,7 +19,11 @@ end addsub4;
 architecture rtl of addsub4 is
     -- declare full_adder circut as a component
     component full_adder is
-        port ( x, y, cin : in std_logic; s, cout : out std_logic );
+        port (
+            a, b    : in  std_logic_vector(3 downto 0);
+            m       : in  std_logic;
+            sum     : out std_logic_vector(3 downto 0);
+            v, cout : out std_logic );
     end component;
     -- intermediate signals
     -- set each bit to 0 initially

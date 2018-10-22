@@ -3,7 +3,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 entity mux2 is
-    port ( a   : in  std_logic_vector(1 downto 0);
+    port ( x   : in  std_logic_vector(1 downto 0);
            sel : in  std_logic;
            y   : out std_logic
           );
@@ -13,7 +13,7 @@ architecture rtl of mux2 is
 begin
 
     with sel select
-        y <= a(0) when "0",
-             a(1) when others;
+        y <= x(0) when '0',
+             x(1) when others;
 
 end rtl;

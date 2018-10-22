@@ -1,52 +1,52 @@
--- 1-bit ALU circuit
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+-- 1-bit alu circuit
+library ieee;
+use ieee.std_logic_1164.all;
 
--- Functions implemented
--- OPCODE       FUNCTION
--- 000          A + B
--- 001          A - B
--- 010          A XOR B
--- 011          A AND B
--- 100          SHIFT LEFT A
--- 101          NOT A
--- 110          INCREMENT A
--- 111          CLEAR
+-- functions implemented
+-- opcode       function
+-- 000          a + b
+-- 001          a - b
+-- 010          a xor b
+-- 011          a and b
+-- 100          shift left a
+-- 101          not a
+-- 110          increment a
+-- 111          clear
 
 entity alu1 is
-    Port ( A      : in  STD_LOGIC;  -- Operand 1
-           B      : in  STD_LOGIC;  -- Operand 2
-           OPCODE : in  STD_LOGIC_VECTOR(2 downto 0);  -- Opcode (Select)
-           Z      : in  STD_LOGIC;  -- Carry In
-           F      : out STD_LOGIC;  -- Result
-           C      : out STD_LOGIC   -- Carry Out
+    port (
+        a, b   : in  std_logic;  -- operands
+        cin    : in  std_logic;  -- carry in
+        opcode : in std_logic_vector(1 downto 0); -- opcode (select)
+        s      : out std_logic;  -- result
+        cout   : out std_logic   -- carry out
     );
 end alu1;
 
-architecture Behavioral of alu1 is
 
+architecture rtl of alu1 is
 begin
 
-    -- Calculate output
-    with OPCODE select
-        F <= (A XOR B) XOR Z        when "000",  -- A + B
-             (A XOR B) XOR Z        when "001",  -- A - B
-             A XOR B                when "010",  -- A XOR B
-             A AND B                when "011",  -- A AND B
-             Z                      when "100",  -- SHIFT LEFT A
-             NOT A                  when "101",  -- NOT A
-             A XOR Z                when "110",  -- INCREMENT A
-             '0'                    when others; -- CLEAR
+    -- calculate result output
+    with opcode select
+        s <= a xor B xor z          when "000",  -- a + b
+             a xor b xor z          when "001",  -- a - b
+             a xor b                when "010",  -- a xor b
+             a and b                when "011",  -- a and b
+             cin                    when "100",  -- shift left a
+             not a                  when "101",  -- not a
+             a xor cin              when "110",  -- increment a
+             '0'                    when others; -- clear
 
-    -- Calculate carry
-    with OPCODE select
-        C <= (A AND B) OR (Z AND (A XOR B))             when "000", -- A + B
-             ((NOT A) AND B) OR (Z AND (NOT (A XOR B))) when "001", -- A - B
-             '0'        when "010",        -- A XOR B
-             '0'        when "011",        -- A AND B
-             A          when "100",        -- SHIFT LEFT A
-             '0'        when "101",        -- NOT A
-             A AND Z    when "110",        -- INCREMENT A
-             '0'        when others;       -- CLEAR
+    -- calculate carry output
+    with opcode select
+     cout <= (a and b) or (cin and (a xor b))        when "000", -- a + b
+             ((not a) and b) or (cin and (a xnor b)) when "001", -- a - b
+             '0'                                     when "010", -- a xor b
+             '0'                                     when "011", -- a and b
+             a                                       when "100", -- shift left a
+             '0'                                     when "101", -- not a
+             a and cin                               when "110", -- increment a
+             '0'                                     when others;
 
-end Behavioral;
+end rtl;

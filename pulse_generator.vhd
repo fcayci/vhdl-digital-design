@@ -1,46 +1,37 @@
--- Pulse generator
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+-- pulse generator
+-- use counter_tb.vhd for testbench
+-- generates a one-clock cycle pulse after every 99 clocks;
+
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity pulse_generator is
-    Port ( clk : in  STD_LOGIC;
-           rst : in  STD_LOGIC;
-           ce  : in  STD_LOGIC;
-           pulse_out : out  STD_LOGIC);
+    port ( en, clk, rst : in std_logic;
+           pulse_o : out std_logic
+    );
 end pulse_generator;
 
-architecture Behavioral of pulse_generator is
-
-    -- Create an intermediate signal for counting and initialize it to 0s.
-    -- It hould be a big number since 50 MHz is roughly around 50 x 2^20 ~= 2^26
-    SIGNAL count : STD_LOGIC_VECTOR(24 downto 0) := (others => '0');
-
+architecture rtl of pulse_generator is
+    signal counter : natural range 0 to 100 := 0;
 begin
 
-    process (clk, rst) is
+    process(clk, rst) is
     begin
-        -- First check for reset pin
         if rst = '1' then
-            count <= (others => '0');
-        -- Second and last check for clock event.
-        elsif clk'event and clk = '1' then
-            -- If the circuit is not enabled don't do anything. (Chip Enable)
-            if ce = '1' then
-                -- Increment the counter every clock cycle. This will go back to zero
-                --   once overflows. So no need to reset it ourselves.
-                count <= count + 1;
-                -- Whenever it goes back to all 0's create a pulse for one clock cycle.
-                --   The frequency of this new pulse (or clock) depend on the number of bits
-                --   count has. If you want an exact frequency, reset the count back to zero
-                --   when it reaches to that specific value.
-                if count = "0000000000000000000000000" then
-                    pulse_out <= '1';
+            counter <= 0;
+        elsif rising_edge(clk) then
+            if en = '1' then
+                pulse_o <= '0'; -- assign default value for pulse_o. next values will overwrite this
+                if counter = 99 then
+                    pulse_o <= '1';
+                    counter <= 0;
                 else
-                    pulse_out <= '0';
+                    counter <= counter + 1;
+                    -- pulse_o <= '0'; -- alternative place for default value.
                 end if;
             end if;
         end if;
     end process;
-        
-end Behavioral;
+
+end rtl;
