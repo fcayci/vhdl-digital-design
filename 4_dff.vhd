@@ -7,8 +7,10 @@ entity dff is
         d   : in std_logic;
         clk : in std_logic;
         en  : in std_logic;
+        set : in std_logic;
         rst : in std_logic;
-        q1, q2, q3, q4, q5  : out std_logic
+        q1, q2, q3, q4 : out std_logic;
+        q5, q6, q7, q8 : out std_logic
     );
 end dff;
 
@@ -32,7 +34,7 @@ begin
         end if;
     end process;
 
-    -- dff with async reset
+    -- dff with async reset (clear)
     process(rst, clk) is
     begin
         if rst = '1' then
@@ -55,13 +57,51 @@ begin
     end process;
 
     -- dff with async reset and enable
-    process(rst, en, clk) is
+    process(rst, clk) is
     begin
         if rst = '1' then
             q5 <= '0';
-        elsif en = '1' then
-            if rising_edge(clk) then
+        elsif rising_edge(clk) then
+            if en = '1' then
                 q5 <= d;
+            end if;
+        end if;
+    end process;
+
+
+    -- dff with sync reset and enable
+    process(clk) is
+    begin
+        if rising_edge(clk) then
+            if rst = '1' then
+                q6 <= '0';
+            elsif en = '1' then
+                q6 <= d;
+            end if;
+        end if;
+    end process;
+
+    -- dff with async set (preset) and enable
+    process(set, clk) is
+    begin
+        if set = '1' then
+            q7 <= '1';
+        elsif rising_edge(clk) then
+            if en = '1' then
+                q7 <= d;
+            end if;
+        end if;
+    end process;
+
+
+    -- dff with sync set and enable
+    process(clk) is
+    begin
+        if rising_edge(clk) then
+            if set = '1' then
+                q8 <= '1';
+            elsif en = '1' then
+                q8 <= d;
             end if;
         end if;
     end process;
