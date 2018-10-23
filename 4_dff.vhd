@@ -15,7 +15,7 @@ end dff;
 architecture behavioral of dff is
 begin
 
-    -- positive-edge triggered dff
+    -- rising-edge triggered dff
     process(clk) is
     begin
         if rising_edge(clk) then
@@ -23,7 +23,7 @@ begin
         end if;
     end process;
 
-    -- negative-edge triggered dff
+    -- falling-edge triggered dff
     process(clk) is
     begin
         --if falling_edge(clk) then
