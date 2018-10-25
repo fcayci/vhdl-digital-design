@@ -13,15 +13,15 @@ entity pulse_generator is
 end pulse_generator;
 
 architecture rtl of pulse_generator is
-    signal counter : natural range 0 to 100 := 0;
+    signal counter : natural := 0;
 begin
 
-    process(clk, rst) is
+    process(clk) is
     begin
-        if rst = '1' then
-            counter <= 0;
-        elsif rising_edge(clk) then
-            if en = '1' then
+        if rising_edge(clk) then
+            if rst = '1' then
+                counter <= 0;
+            elsif en = '1' then
                 pulse_o <= '0'; -- assign default value for pulse_o. next values will overwrite this
                 if counter = 99 then
                     pulse_o <= '1';

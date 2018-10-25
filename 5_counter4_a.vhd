@@ -15,17 +15,17 @@ architecture rtl of counter4_a is
 
 begin
 
-    process(clk, rst) is
+    process(clk) is
     begin
-        -- reset all the flip flop outputs to 0
-        if rst = '1' then
-            a <= '0';
-            b <= '0';
-            c <= '0';
-            d <= '0';
-        -- each rising edge, update the flip flops
-        elsif rising_edge(clk) then
-            if en = '1' then
+        if rising_edge(clk) then
+            -- reset all the flip flop outputs to 0
+            if rst = '1' then
+                a <= '0';
+                b <= '0';
+                c <= '0';
+                d <= '0';
+            -- each rising edge, update the flip flops
+            elsif en = '1' then
                 a <= a xor '1';
                 b <= b xor a;
                 c <= c xor (a and b);
