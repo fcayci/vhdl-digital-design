@@ -15,19 +15,18 @@ architecture rtl of counter4_b is
     signal counter : unsigned(3 downto 0) := (others => '0');
 begin
 
-    process(clk, rst) is
+    process(clk) is
     begin
-        -- reset flip-flop outputs (all counter bits) to 0 when
-        --  rst signal is activated
-        if rst = '1' then
-            counter <= (others => '0');
-        -- Increment the flip-flop outputs if enabled and rising edge hits.
-        elsif rising_edge(clk) then
-        --elsif clk'event and clk = '1' then
-            if en = '1' then
+        -- Check for rising edge on the registers.
+        if rising_edge(clk) then
+            -- reset flip-flop outputs (all counter bits) to 0 if
+            --    rst signal is active
+            if rst = '1' then
+                counter <= (others => '0');
+            elsif en = '1' then
                 -- reset when counter hits 12
                 if counter = "1100" then
-                    counter <= "0000";
+                    counter <= (others => '0');
                 else
                     counter <= counter + 1;
                 end if;
