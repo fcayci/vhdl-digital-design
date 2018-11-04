@@ -114,4 +114,3 @@ begin
     dist4_o <= std_logic_vector( to_unsigned( sum_bits(diff), 8 ) );
 
 end rtl;
-
