@@ -1,12 +1,12 @@
 -- single port M-bit x N-bit RAM asyncronous read
--- distributed RAM
+-- distributed RAM (async read)
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity ram is
     generic(
-        M : integer := 3;
+        M : integer := 10;
         N : integer := 32
     );
     port(

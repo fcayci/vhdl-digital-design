@@ -4,7 +4,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-entity srl is
+entity shreg is
     generic(
         N : integer := 32
     );
@@ -13,9 +13,9 @@ entity srl is
         si : in std_logic;
         soa, sob : out std_logic
     );
-end srl;
+end shreg;
 
-architecture rtl of srl is
+architecture rtl of shreg is
     signal srega : std_logic_vector(N - 1 downto 0);
     signal sregb : std_logic_vector(N - 1 downto 0);
 begin
@@ -41,7 +41,7 @@ begin
             if rst = '1' then
                 sregb <= (others => '0');
             else
-                for i in 0 to N - 2 loop:
+                for i in 0 to N - 2 loop
                     sregb(i+1) <= sregb(i);
                 end loop;
 

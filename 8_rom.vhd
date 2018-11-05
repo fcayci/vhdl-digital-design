@@ -20,9 +20,7 @@ architecture rtl of rom is
 
     type rom_type is array(0 to 2**M - 1) of std_logic_vector(N - 1 downto 0);
 
-    -- This will syntesize into an M-bit long, N-bit wide ROM type
-    --
-    --         76543210  -> N-bit, N is 8 bits
+    --         76543210  -> N-bit wide, N is 8 bits
     --         --------
     --   000 | xxxxxxxx
     --   001 | xxxxxxxx
@@ -40,6 +38,10 @@ architecture rtl of rom is
         x"80", x"84", x"8A", x"8E",
         x"F0", x"F4", x"FA", x"FF"
     );
+
+    attribute rom_style : string;
+    attribute rom_style of ROM : signal is "block";
+
 begin
 
     process(clk) is
