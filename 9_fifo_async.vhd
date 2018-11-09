@@ -30,6 +30,11 @@ architecture rtl of fifo_async is
 
     signal wr_ptr, rd_ptr : integer range 0 to 2**M - 1 := 0;
     signal empty, full : std_logic := '0';
+
+    -- do not optimize away empty / full signals
+    attribute keep : string;
+    attribute keep of empty : signal is "true";
+    attribute keep of full : signal is "true";
 begin
 
     write: process(clk_wr_i) is
