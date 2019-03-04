@@ -3,10 +3,10 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity tb_cnt4 is
-end tb_cnt4;
+entity tb_counter is
+end tb_counter;
 
-architecture bhv of tb_cnt4 is
+architecture bhv of tb_counter is
 
 	signal en, clk : std_logic := '0';
 	signal couta, coutb : std_logic_vector(3 downto 0);
@@ -16,9 +16,9 @@ architecture bhv of tb_cnt4 is
 
 begin
 
-	c0: entity work.cnt4a(rtl)
+	c0: entity work.counter(bhv)
 	  port map (en => en, clk => clk, cout => couta );
-	c1: entity work.cnt4b(rtl)
+	c1: entity work.counter(rtl)
 	  port map (en => en, clk => clk, cout => coutb );
 
 	-- generate clock signal
