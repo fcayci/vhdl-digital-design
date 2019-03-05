@@ -14,6 +14,8 @@ TBS = $(wildcard sim/tb_*.vhd)
 TB = sim/$(ARCHNAME).vhd
 WORKDIR = debug
 
+CFLAGS += --std=08 # enable ieee 2008 standard
+
 OBJS = $(patsubst sim/%.vhd, %.bin, $(TBS))
 
 .PHONY: all
@@ -23,18 +25,18 @@ all: check analyze
 .PHONY: check
 check:
 	@echo "syntax check on all designs..."
-	@$(CC) -s $(SRCS) $(TBS)
+	@$(CC) -s $(CFLAGS) $(SRCS) $(TBS)
 
 .PHONY: analyze
 analyze:
 	@echo "analyzing designs..."
 	@mkdir -p $(WORKDIR)
-	@$(CC) -a --workdir=$(WORKDIR) $(SRCS) $(TBS)
+	@$(CC) -a $(CFLAGS) --workdir=$(WORKDIR) $(SRCS) $(TBS)
 
 .PHONY: simulate
 simulate: clean analyze
 	@echo "simulating design:" $(TB)
-	@$(CC) --elab-run --workdir=$(WORKDIR) -o $(WORKDIR)/$(ARCHNAME).bin $(ARCHNAME) --vcd=$(WORKDIR)/$(ARCHNAME).vcd --stop-time=$(STOPTIME)
+	@$(CC) --elab-run $(CFLAGS) --workdir=$(WORKDIR) -o $(WORKDIR)/$(ARCHNAME).bin $(ARCHNAME) --vcd=$(WORKDIR)/$(ARCHNAME).vcd --stop-time=$(STOPTIME)
 
 .PHONY: waveform
 waveform: simulate
