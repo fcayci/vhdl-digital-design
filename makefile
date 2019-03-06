@@ -23,8 +23,8 @@ VHDL_SOURCES += rtl/fsm.vhd
 VHDL_SOURCES += rtl/hamming.vhd
 VHDL_SOURCES += rtl/rgb2grey.vhd
 
-TBS = $(wildcard sim/tb_*.vhd)
-TB = sim/$(ARCHNAME).vhd
+TBS = $(wildcard tb/tb_*.vhd)
+TB = tb/$(ARCHNAME).vhd
 WORKDIR = debug
 
 CFLAGS += --std=08 # enable ieee 2008 standard
