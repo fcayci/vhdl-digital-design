@@ -8,15 +8,26 @@ SIM = gtkwave
 ARCHNAME?=tb_half_adder
 STOPTIME = 100ms
 
-SRCS = $(wildcard rtl/*.vhd)
+#SRCS = $(wildcard rtl/*.vhd)
 #SRCS += $(wildcard impl/*.vhd)
+
+# added one at a time for keeping the compile order
+VHDL_SOURCES += rtl/half_adder.vhd
+VHDL_SOURCES += rtl/full_adder.vhd
+VHDL_SOURCES += rtl/adder4.vhd
+VHDL_SOURCES += rtl/addsub4.vhd
+VHDL_SOURCES += rtl/counter.vhd
+VHDL_SOURCES += rtl/fifo_async.vhd
+VHDL_SOURCES += rtl/fifo_sync.vhd
+VHDL_SOURCES += rtl/fsm.vhd
+VHDL_SOURCES += rtl/hamming.vhd
+VHDL_SOURCES += rtl/rgb2grey.vhd
+
 TBS = $(wildcard sim/tb_*.vhd)
 TB = sim/$(ARCHNAME).vhd
 WORKDIR = debug
 
 CFLAGS += --std=08 # enable ieee 2008 standard
-
-OBJS = $(patsubst sim/%.vhd, %.bin, $(TBS))
 
 .PHONY: all
 all: check analyze
@@ -25,13 +36,13 @@ all: check analyze
 .PHONY: check
 check:
 	@echo "syntax check on all designs..."
-	@$(CC) -s $(CFLAGS) $(SRCS) $(TBS)
+	@$(CC) -s $(CFLAGS) $(VHDL_SOURCES) $(TBS)
 
 .PHONY: analyze
 analyze:
 	@echo "analyzing designs..."
 	@mkdir -p $(WORKDIR)
-	@$(CC) -a $(CFLAGS) --workdir=$(WORKDIR) $(SRCS) $(TBS)
+	@$(CC) -a $(CFLAGS) --workdir=$(WORKDIR) $(VHDL_SOURCES) $(TBS)
 
 .PHONY: simulate
 simulate: clean analyze
