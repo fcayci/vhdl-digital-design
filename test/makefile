@@ -11,7 +11,7 @@ VHDL_SOURCES += $(WPWD)/../rtl/adder4.vhd
 VHDL_SOURCES += $(WPWD)/../rtl/addsub4.vhd
 
 PWD=$(shell pwd)
-COCOTB=../../cocotb
+COCOTB=../../tools/cocotb
 
 ifeq ($(OS),Msys)
 WPWD=$(shell sh -c 'pwd -W')
