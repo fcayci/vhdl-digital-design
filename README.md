@@ -6,9 +6,9 @@ VHDL examples for digital design course.
 
 ## Folders
 ```
-rtl - circuits
-tb - testbenches for some of the circuits
-test - (optional) cocotb support for simulation
+rtl/  - circuits
+tb/   - testbenches for some of the circuits
+test/ - (optional) cocotb support for simulation
 ```
 
 - install *GHDL* and *GTKWave* and add both to `PATH` 
