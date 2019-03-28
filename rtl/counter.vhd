@@ -44,7 +44,7 @@ end bhv;
 
 architecture rtl of counter is
 	-- initialize counter signal to all 0s
-	signal counter : unsigned(3 downto 0) := (others => '0');
+	signal cnt : unsigned(3 downto 0) := (others => '0');
 begin
 
 	process(clk) is
@@ -53,16 +53,16 @@ begin
 		if rising_edge(clk) then
 			if en = '1' then
 				-- reset when counter hits 12
-				if counter = 12 then
-					counter <= (others => '0');
+				if cnt = 12 then
+					cnt <= (others => '0');
 				else
-					counter <= counter + 1;
+					cnt <= cnt + 1;
 				end if;
 			end if;
 		end if;
 	end process;
 
 	-- Assign the output outside of process.
-	cout <= std_logic_vector(counter);
+	cout <= std_logic_vector(cnt);
 
 end rtl;
