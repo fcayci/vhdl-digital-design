@@ -18,31 +18,31 @@ use ieee.fixed_pkg.all;
 
 entity rgb2grey is
 port (
-	rgb  : in  std_logic_vector(23 downto 0);
-	grey : out std_logic_vector(7 downto 0)
+    rgb  : in  std_logic_vector(23 downto 0);
+    grey : out std_logic_vector(7 downto 0)
 );
 end rgb2grey;
 
 architecture rtl of rgb2grey is
-	-- ufixed (and sfixed) is a special type that comes with fixed_pkg.
-	--   max downto 0 represents the integer part
-	--   -1 downto min represents the fraction part
-	--   both gets combined into single max downto min representation
-	signal r, g, b: ufixed(7 downto -2) := (others => '0');
-	signal t : ufixed(10 downto -10) := (others => '0');
+    -- ufixed (and sfixed) is a special type that comes with fixed_pkg.
+    --   max downto 0 represents the integer part
+    --   -1 downto min represents the fraction part
+    --   both gets combined into single max downto min representation
+    signal r, g, b: ufixed(7 downto -2) := (others => '0');
+    signal t : ufixed(10 downto -10) := (others => '0');
 begin
 
-	r <= ufixed(rgb(23 downto 16) & "00");
-	g <= ufixed(rgb(15 downto 8) & "00");
-	b <= ufixed(rgb(7 downto 0) & "00");
+    r <= ufixed(rgb(23 downto 16) & "00");
+    g <= ufixed(rgb(15 downto 8) & "00");
+    b <= ufixed(rgb(7 downto 0) & "00");
 
-	-- in order to determine the size of t
-	--   all the multiplications will bring 9 (8 + 1) integer and 10 (2 + 8) float bits
-	--   the sum of three ufixed numbers will bring 11 (9 + 1 + 1) integer and 10 ( max(10, 10, 10)) float bits
-	--   so t should be (10 downto 0) + (-1 downto -10) -> (10 downto -10)
-	t <= r * to_ufixed(0.3, 0, -8) + g * to_ufixed(0.59, 0, -8) + b * to_ufixed(0.11, 0, -8);
-	--t(8 downto -10) <= r * to_ufixed(0.59, 0, -8);
+    -- in order to determine the size of t
+    --   all the multiplications will bring 9 (8 + 1) integer and 10 (2 + 8) float bits
+    --   the sum of three ufixed numbers will bring 11 (9 + 1 + 1) integer and 10 ( max(10, 10, 10)) float bits
+    --   so t should be (10 downto 0) + (-1 downto -10) -> (10 downto -10)
+    t <= r * to_ufixed(0.3, 0, -8) + g * to_ufixed(0.59, 0, -8) + b * to_ufixed(0.11, 0, -8);
+    --t(8 downto -10) <= r * to_ufixed(0.59, 0, -8);
 
-	grey <= std_logic_vector(to_unsigned(t, 8));
+    grey <= std_logic_vector(to_unsigned(t, 8));
 
 end rtl;
