@@ -1,5 +1,4 @@
 # vhdl-digital-design
----
 
 VHDL circuit examples for digital design course.
 
@@ -7,11 +6,14 @@ VHDL circuit examples for digital design course.
 - [GTKWave](http://gtkwave.sourceforge.net/) for displaying the waveforms
 
 ## Folders
+
 ```
 rtl/  - circuits
 tb/   - testbenches for some of the circuits
 test/ - (optional) cocotb support for simulation
 ```
+
+## Syntax check and elaborate designs
 
 - install *GHDL* and *GTKWave* and add both to `PATH` 
 - run `make` to syntax check and analyze all the designs
@@ -22,6 +24,8 @@ $ make
 >>> analyzing designs...
 >>> completed...
 ```
+
+## Run simulation and display waveform
 
 - run `make simulate ARCHNAME=tbname` to run the given testbench, and display waveform where `tbname` is any of the testbench names inside the [tb](tb/) directory
 
