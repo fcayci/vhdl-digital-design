@@ -4,7 +4,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity rom is
+entity read_only_mem is
 generic(
     M : integer := 4;
     N : integer := 8
@@ -14,9 +14,9 @@ port(
     addr : in  std_logic_vector(M - 1 downto 0);
     dout : out std_logic_vector(N - 1 downto 0)
 );
-end rom;
+end read_only_mem;
 
-architecture rtl of rom is
+architecture rtl of read_only_mem is
 
     type rom_type is array(0 to 2**M - 1) of std_logic_vector(N - 1 downto 0);
 
