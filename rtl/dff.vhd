@@ -1,4 +1,4 @@
--- 1-bit d flip-flop examples
+-- 1-bit d flip-flop examples with various configurations
 library ieee;
 use ieee.std_logic_1164.all;
 
@@ -20,6 +20,7 @@ begin
     -- rising-edge triggered dff
     process(clk) is
     begin
+        -- clk'event and clk ='1' then
         if rising_edge(clk) then
             q1 <= d;
         end if;
@@ -28,8 +29,8 @@ begin
     -- falling-edge triggered dff
     process(clk) is
     begin
-        --if falling_edge(clk) then
-        if clk'event and clk = '0' then
+        --if clk'event and clk = '0' then
+        if falling_edge(clk) then
             q2 <= d;
         end if;
     end process;
