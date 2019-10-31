@@ -1,7 +1,8 @@
 # author: Furkan Cayci, 2019
 # description:
 #   add ghdl to your PATH for simulation
-#   add gtkwave to your PATH for displayin the waveform
+#   add gtkwave to your PATH for displaying waveform
+#   run with make simulate ARCHNAME=tb_xxx STOPTIME=1us
 
 CC = ghdl
 SIM = gtkwave
@@ -9,11 +10,12 @@ WORKDIR = debug
 QUIET = @
 
 ARCHNAME?= tb_half_adder
-STOPTIME?= 100ms
+STOPTIME?= 100us
 
 # analyze these two first since some other circuits depend on these
 VHDL_SOURCES += rtl/half_adder.vhd
 VHDL_SOURCES += rtl/full_adder.vhd
+VHDL_SOURCES += rtl/adder4.vhd
 # add rest of the files in rtl directory for analyzing
 VHDL_SOURCES += $(wildcard rtl/*.vhd)
 #SRCS += $(wildcard impl/*.vhd)
@@ -43,8 +45,10 @@ analyze:
 .PHONY: simulate
 simulate: clean analyze
 	@echo ">>> simulating design:" $(TB)
-	$(QUIET)$(CC) --elab-run $(CFLAGS) --workdir=$(WORKDIR) -o $(WORKDIR)/$(ARCHNAME).bin $(ARCHNAME) --vcd=$(WORKDIR)/$(ARCHNAME).vcd --stop-time=$(STOPTIME)
-	@echo "showing the waveform for:" $(TB)
+	$(QUIET)$(CC) --elab-run $(CFLAGS) --workdir=$(WORKDIR) \
+		-o $(WORKDIR)/$(ARCHNAME).bin $(ARCHNAME) \
+		--vcd=$(WORKDIR)/$(ARCHNAME).vcd --stop-time=$(STOPTIME)
+	@echo ">>> showing waveform for:" $(TB)
 	$(QUIET)$(SIM) $(WORKDIR)/$(ARCHNAME).vcd
 
 .PHONY: clean
