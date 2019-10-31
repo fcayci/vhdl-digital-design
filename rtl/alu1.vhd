@@ -1,48 +1,60 @@
--- 1-bit alu circuit
+-- 1-bit alu circuit (with process)
+-- functions implemented
+--   opcode  function
+--   000     a + b
+--   001     a - b
+--   010     a and b
+--   011     a or b
+--   100     a nor b
+--   101     a xor b
+--   110     a < b
+--   111     not a
+
 library ieee;
 use ieee.std_logic_1164.all;
 
--- functions implemented
--- opcode       function
--- 0000          a + b
--- 0001          a - b
--- 0010          a xor b
--- 0011          a and b
--- 0100          shift left a
--- 0101          not a
--- 0110          increment a
--- 0111          clear
-
 entity alu1 is
 port (
-    op1, op2 : in  std_logic;
-    cin      : in  std_logic;
-    opcode   : in  std_logic_vector(3 downto 0);
-    res      : out std_logic;
-    cout     : out std_logic
+    a, b   : in std_logic;
+    ci     : in std_logic;
+    opcode : in std_logic_vector(2 downto 0);
+    r      : out std_logic;
+    co     : out std_logic
 );
 end alu1;
 
 architecture rtl of alu1 is
 begin
 
-    -- calculate result output
-    with opcode select res <=
-        op1 xor op2 xor cin    when "0000",  -- a + b
-        op1 xor op2 xor cin    when "0001",  -- a - b
-        op1 xor op2            when "0010",  -- a xor b
-        op1 and op2            when "0011",  -- a and b
-        cin                    when "0100",  -- shift left a
-        not op1                when "0101",  -- not a
-        op1 xor cin            when "0110",  -- increment a
-        '0'                    when others;  -- clear
-
-    -- calculate carry output
-    with opcode select cout <=
-        (op1 and op2) or (cin and (op1 xor op2))        when "0000", -- a + b
-        ((not op1) and op2) or (cin and (op1 xnor op2)) when "0001", -- a - b
-        op1                                             when "0100", -- shift left a
-        op1 and cin                                     when "0110", -- increment a
-        '0'                                             when others;
+    process(a, b, ci, opcode) is
+    begin
+        co <= '0';
+        case opcode is
+            when "000" =>
+                r <= a xor b xor ci;
+                co <= (a and b) or (a and ci) or (b and ci);
+            when "001" =>
+                r <= a xor b xor ci;
+                co <= ((not a) and b) or ((not (a xor b)) and ci);
+            when "010" =>
+                r <= a and b;
+            when "011" =>
+                r <= a or b;
+            when "100" =>
+                r <= a nor b;
+            when "101" =>
+                r <= a xor b;
+            when "110" =>
+                if a = '0' and b = '1' then
+                    r <= '1';
+                else
+                    r <= '0';
+                end if;
+            when "111" =>
+                r <= not a;
+            when others =>
+                r <= '0';
+        end case;
+    end process;
 
 end rtl;
