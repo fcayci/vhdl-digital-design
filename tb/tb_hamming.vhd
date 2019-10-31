@@ -1,4 +1,4 @@
--- 16-bit hamming distance finder testbench
+-- hamming distance finder testbench
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -8,6 +8,7 @@ end tb_hamming;
 
 architecture bhv of tb_hamming is
 
+    constant M : integer := 16;
     signal a, b : std_logic_vector(15 downto 0) := (others => '0');
     signal d    : std_logic_vector(7 downto 0);
 
@@ -16,7 +17,8 @@ begin
     -- careful with positional mapping. not adviced
     -- use proper port mapping instead
     h0 : entity work.hamming(rtl)
-      port map (a => a, b => b, dist => d);
+      generic map (M => M)
+      port map (i_a => a, i_b => b, o_dist => d);
 
     -- stimulus
     process
