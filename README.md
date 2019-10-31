@@ -2,6 +2,8 @@
 
 VHDL circuit examples for digital design course.
 
+Some of the designs might have multiple architecture implementations to show design options and variations. Watch out when you instantiate/synthesize the circuits. Basic testbench examples are also given for some of the circuits. Not all the designs are tested and verified, so feel free to send any fixes if you see any mistakes.
+
 ## Folders
 
 ```
@@ -13,8 +15,8 @@ test/ - cocotb support for simulation
 ## Usage
 
 - All the files under `rtl/` and `tb/` can be imported in your synthesis tool (e.g Vivado).
-- Optionally, you can use [GHDL](http://ghdl.free.fr) which is a cross-platform open-source simulator for VHDL language.
-- Simulated results can be seen using [GTKWave](http://gtkwave.sourceforge.net/) which is an open source waveform viewer.
+- Optionally, you can use [GHDL](http://ghdl.free.fr), which is a cross-platform open-source simulator for VHDL language, to simulate the circuits.
+- Simulated results can be viewed using [GTKWave](http://gtkwave.sourceforge.net/) which is an open source waveform viewer.
 - Install *GHDL* and *GTKWave* and add them to your `PATH`
 - run `make` on the root folder to check syntax and analyze all designs
 
