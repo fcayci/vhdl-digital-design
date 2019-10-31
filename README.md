@@ -2,8 +2,6 @@
 
 VHDL circuit examples for digital design course.
 
-- [GHDL](http://ghdl.free.fr) can be used for simulation
-
 ## Folders
 
 ```
