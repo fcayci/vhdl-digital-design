@@ -9,7 +9,7 @@ Some of the designs might have multiple architecture implementations to show des
 ```
 rtl/  - circuits
 tb/   - testbenches for some of the circuits
-test/ - cocotb support for simulation
+cocotb/ - cocotb examples for simulation
 ```
 
 ## Usage
@@ -58,4 +58,4 @@ make simulate ARCHNAME=tb_counter STOPTIME=1ms
 
 - [Cocotb](https://github.com/cocotb/cocotb) is a *co-simulation library* for writing VHDL and Verilog testbenches in Python.
 - Github page gives information about installation.
-- `test/` directory has a couple models and examples along with a *makefile* to run tests. Although you might need to play with the *makefile* to get it working, especially cocotb installation location.
+- `cocotb/` directory has a couple models and examples along with a *makefile* to run tests.
