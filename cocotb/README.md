@@ -9,6 +9,10 @@
 
 additionally
 
-- `make COCOTB_REDUCED_LOG_FMT=1` for reduced log lines
-- `make TOPLEVEL=full_adder MODULE=test_full_adder` for changing tests
+- `make COCOTB_REDUCED_LOG_FMT=1` for reduced log lines. (added in makefile by default)
+- `make TOPLEVEL=design_name MODULE=test_design_name` for changing tests
 
+example:
+
+- `make TOPLEVEL=full_adder MODULE=test_full_adder`
+- `make TOPLEVEL=alu_nzvc MODULE=test_alu_nzvc`

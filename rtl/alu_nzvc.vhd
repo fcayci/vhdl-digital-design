@@ -16,6 +16,7 @@ end alu_nzvc;
 
 architecture rtl of alu_nzvc is
     signal a_u, b_u, r_u : unsigned(M downto 0) := (others=>'0');
+    signal c_sub : std_logic := '0';
 begin
 
     -- make type castings for easy operations
@@ -26,11 +27,14 @@ begin
     -- alu, can also be tied to clock
     process(a_u, b_u, opcode) is
     begin
+        c_sub <= '0';
+
         case opcode is
             when "000" => -- add
                 r_u <= a_u + b_u;
             when "001" => -- sub
                 r_u <= a_u - b_u;
+                c_sub <= '1';
             when "010" => -- and
                 r_u <= a_u and b_u;
             when "011" => -- or
@@ -55,7 +59,7 @@ begin
     end process;
 
     -- carry flag
-    c <= r_u(M);
+    c <= r_u(M) when c_sub = '0' else not r_u(M);
 
     -- negative flag
     n <= r_u(M-1);

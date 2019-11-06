@@ -1,8 +1,7 @@
 # all the adder models
 
 def xor(a, b):
-    return (a and (not b)) or ((not a ) and b)
-
+    return (a & (~b)) | ((~a) & b)
 
 def half_adder_model(a, b):
     """
