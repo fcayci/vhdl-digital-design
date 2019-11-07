@@ -57,8 +57,8 @@ def alu_add_random(dut):
     op = 0
 
     for _ in range(1000):
-        a = randrange(0, 2**32)
-        b = randrange(0, 2**32)
+        a = randrange(0, UINT_MAX)
+        b = randrange(0, UINT_MAX)
         dut.a = a
         dut.b = b
         dut.opcode = op
@@ -123,8 +123,8 @@ def alu_sub_random(dut):
     op = 1
 
     for _ in range(1000):
-        a = randrange(0, 2**32)
-        b = randrange(0, 2**32)
+        a = randrange(0, UINT_MAX)
+        b = randrange(0, UINT_MAX)
         dut.a = a
         dut.b = b
         dut.opcode = op
@@ -189,8 +189,8 @@ def alu_and_random(dut):
     op = 2
 
     for _ in range(1000):
-        a = randrange(0, 2**32)
-        b = randrange(0, 2**32)
+        a = randrange(0, UINT_MAX)
+        b = randrange(0, UINT_MAX)
         dut.a = a
         dut.b = b
         dut.opcode = op
@@ -255,8 +255,8 @@ def alu_or_random(dut):
     op = 3
 
     for _ in range(1000):
-        a = randrange(0, 2**32)
-        b = randrange(0, 2**32)
+        a = randrange(0, UINT_MAX)
+        b = randrange(0, UINT_MAX)
         dut.a = a
         dut.b = b
         dut.opcode = op
@@ -321,8 +321,8 @@ def alu_nor_random(dut):
     op = 4
 
     for _ in range(1000):
-        a = randrange(0, 2**32)
-        b = randrange(0, 2**32)
+        a = randrange(0, UINT_MAX)
+        b = randrange(0, UINT_MAX)
         dut.a = a
         dut.b = b
         dut.opcode = op
@@ -387,8 +387,8 @@ def alu_xor_random(dut):
     op = 5
 
     for _ in range(1000):
-        a = randrange(0, 2**32)
-        b = randrange(0, 2**32)
+        a = randrange(0, UINT_MAX)
+        b = randrange(0, UINT_MAX)
         dut.a = a
         dut.b = b
         dut.opcode = op
@@ -453,8 +453,8 @@ def alu_slt_random(dut):
     op = 6
 
     for _ in range(1000):
-        a = randrange(0, 2**32)
-        b = randrange(0, 2**32)
+        a = randrange(0, UINT_MAX)
+        b = randrange(0, UINT_MAX)
         dut.a = a
         dut.b = b
         dut.opcode = op
@@ -520,8 +520,8 @@ def alu_not_random(dut):
     op = 7
 
     for _ in range(1000):
-        a = randrange(0, 2**32)
-        b = randrange(0, 2**32)
+        a = randrange(0, UINT_MAX)
+        b = randrange(0, UINT_MAX)
         dut.a = a
         dut.b = b
         dut.opcode = op
