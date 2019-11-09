@@ -142,21 +142,16 @@ end rtlb;
 
 -- implementation #3
 -- everything is merged into one process
--- mealy output is delayed by one clock cycle to avoid glitches
--- moore output is delayed by one clock cycle
---   but, can be treated like mealy to set earlier
+-- state is made a variable just to give a different example
 architecture rtlc of fsm is
-    -- next-state logic is merged into one state
-    type state_type is (s0, s1, s2);
-    signal state : state_type := s0;
 begin
 
     process(clk) is
+        type state_type is (s0, s1, s2);
+        variable state : state_type := s0;
     begin
         if rising_edge(clk) then
-            -- default values for all the outputs
-            -- used to avoid any accidental unintentional memory generation
-            state <= s0;
+            -- default values for outputs
             moore <= '0';
             mealy <= '0';
 
@@ -164,25 +159,23 @@ begin
             when s0 =>
                 if a = '1' then
                     if b = '1' then
-                        state <= s2;
+                        state := s2;
+                        -- will overwrite default mealy value
                         mealy <= '1';
                     else
-                        state <= s1;
-                        -- can be added to set moore output earlier
-                        --moore <= '1';
+                        state := s1;
                     end if;
                 end if;
             when s1 =>
+                -- will overwrite default moore value
                 moore <= '1';
                 if a = '1' then
-                    state <= s0;
-                    -- can be added to reset moore output earlier
-                    --moore <= '0';
+                    state := s0;
                 else
-                    state <= s1;
+                    state := s1;
                 end if;
             when s2 =>
-                state <= s0;
+                state := s0;
             end case;
         end if;
     end process;

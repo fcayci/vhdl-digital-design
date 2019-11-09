@@ -38,7 +38,7 @@ begin
     begin
         a <= '0';
         b <= '0';
-        wait for 30 ns;
+        wait for 25 ns;
         a <= '1';
         wait for 52 ns;
         a <= '0';
