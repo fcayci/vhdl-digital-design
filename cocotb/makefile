@@ -25,6 +25,8 @@ VHDL_SOURCES += $(WPWD)/../rtl/half_adder.vhd
 VHDL_SOURCES += $(WPWD)/../rtl/full_adder.vhd
 VHDL_SOURCES += $(WPWD)/../rtl/adder4.vhd
 VHDL_SOURCES += $(WPWD)/../rtl/addsub4.vhd
+VHDL_SOURCES += $(WPWD)/../rtl/alu1.vhd
+VHDL_SOURCES += $(WPWD)/../rtl/alu8.vhd
 VHDL_SOURCES += $(WPWD)/../rtl/alu_nzvc.vhd
 
 TOPLEVEL := addsub4

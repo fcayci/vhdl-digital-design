@@ -1,16 +1,16 @@
--- 8-bit alu using 1-bit alus
--- smaller than options needs rework to fix the result
--- not yet tested, expect bugs
+-- M-bit alu using 1-bit alus
+-- smaller than options needs rework to get correct result
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity alu8 is
+generic(M: integer := 32);
 port (
-    a, b   : in std_logic_vector(7 downto 0);
+    a, b   : in std_logic_vector(M-1 downto 0);
     cin    : in std_logic;
     opcode : in std_logic_vector(2 downto 0);
-    r      : out std_logic_vector(7 downto 0);
+    r      : out std_logic_vector(M-1 downto 0);
     cout   : out std_logic
 );
 end alu8;
@@ -26,25 +26,27 @@ architecture rtl of alu8 is
     );
     end component;
 
-    signal c : std_logic_vector(8 downto 0) := (others=>'0');
-    signal rtmp : std_logic_vector(7 downto 0) := (others=>'0');
+    signal c : std_logic_vector(M downto 0) := (others=>'0');
+    signal rtmp : std_logic_vector(M-1 downto 0) := (others=>'0');
 begin
 
     c(0) <= cin;
-    gen: for i in 0 to 7 generate
+    gen: for i in 0 to M-1 generate
         alu_g: alu1 port map ( a=>a(i), b=>b(i), ci=>c(i), opcode=>opcode, r=>rtmp(i), co=>c(i+1));
     end generate;
-    cout <= c(8);
+    -- subtract is inverted cout
+    cout <= not c(M) when opcode = "001" else c(M);
 
     -- only for a < b stage
+    -- get correct result
     process(a, b, opcode, rtmp) is
         begin
             case opcode is
                 when "110" =>
                     if a < b then
-                        r <= x"01";
+                        r <= (0=>'1', others=>'0');
                     else
-                        r <= x"00";
+                        r <= (others=>'0');
                     end if;
                 when others =>
                     r <= rtmp;
