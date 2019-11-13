@@ -2,10 +2,12 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use std.textio.all;
 
 entity dualram is
 generic(
-    M : integer := 10;
+    RAMFILENAME: string := "../impl/ram_content.data";
+    M : integer := 5;
     N : integer := 32
 );
 port(
@@ -20,7 +22,23 @@ end dualram;
 
 architecture rtl of dualram is
     type ram_type is array(0 to 2**M - 1) of std_logic_vector(N - 1 downto 0);
-    signal RAM : ram_type := (others => (others => '0'));
+
+    impure function init_ram_from_file (fname : in string) return ram_type is
+        file f : text is fname;
+        variable fline : line;
+        variable ramm : ram_type;
+        variable rl : bit_vector(N-1 downto 0);
+    begin
+        for i in ram_type'range loop
+            readline (f, fline);
+            read (fline, rl);
+            ramm(i) := to_stdlogicvector(rl);
+        end loop;
+        return ramm;
+    end function;
+
+    signal RAM : ram_type := init_ram_from_file(RAMFILENAME);
+
 begin
 
     -- a port process - write only
