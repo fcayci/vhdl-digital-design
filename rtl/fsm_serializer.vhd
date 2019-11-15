@@ -42,7 +42,7 @@ begin
     end process;
 
     -- next-state / output logic
-    process(all) is
+    process(state, cnt, data, i_start, i_data) is
     begin
         -- defaults for latch avoidance
         -- read from regs and write to _next
@@ -64,32 +64,40 @@ begin
                 cnt_next <= 0;
             end if;
         when ones =>
-            if cnt < 4 then
-                o_tx <= '1';
-                cnt_next <= cnt + 1;
-            else
+            -- output when in ones state
+            o_tx <= '1';
+
+            if cnt = 3 then
                 state_next <= payload;
                 cnt_next <= 0;
+            else
+                cnt_next <= cnt + 1;
             end if;
         when payload =>
-            if cnt < D then
-                -- shift lsb out
-                o_tx <= data(0);
+            -- output when in payload state
+            -- shift lsb out
+            o_tx <= data(0);
+
+            if cnt = D-1 then
+                state_next <= zeros;
+                cnt_next <= 0;
+            else
                 -- shift data to right
                 data_next <= '0' & data(D-1 downto 1);
                 cnt_next <= cnt + 1;
-            else
-                state_next <= zeros;
-                cnt_next <= 0;
             end if;
         when zeros =>
-            if cnt < 4 then
-                o_tx <= '0';
-                cnt_next <= cnt + 1;
-            else
+            -- output when in zeros state
+            o_tx <= '0';
+
+            if cnt = 3 then
+                -- this will send done on the last bit of zeros
+                -- we could delay it one more cycle if needed
                 o_tx_done <= '1';
                 state_next <= idle;
                 cnt_next <= 0;
+            else
+                cnt_next <= cnt + 1;
             end if;
         end case;
     end process;
