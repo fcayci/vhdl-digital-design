@@ -93,7 +93,7 @@ begin
                 cnt_next <= 0;
             else
                 -- reset timer when in idle and start is not here
-                tmrst <= '0';
+                tmrst <= '1';
             end if;
         when ones =>
             -- output when in ones state
