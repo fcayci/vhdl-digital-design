@@ -13,7 +13,7 @@ end priority;
 architecture rtl of priority is
 begin
 
-    process(a, b) is
+    process(a) is
     begin
         -- default state if no assignment is made
         b <= (others => '0');
